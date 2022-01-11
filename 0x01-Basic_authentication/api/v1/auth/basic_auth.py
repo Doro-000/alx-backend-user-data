@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+"""
+Simple Authorization implementation
+"""
+
 from base64 import b64decode as decode
 from api.v1.auth.auth import Auth
 from typing import TypeVar, Tuple
@@ -7,8 +11,15 @@ from models.user import User
 
 
 class BasicAuth(Auth):
+    """
+    Simple Authorization class
+    """
+
     def extract_base64_authorization_header(
             self, authorization_header: str) -> str:
+        """
+        extracts encoded authorization header
+        """
         if not authorization_header:
             return None
         if not isinstance(authorization_header, str):
@@ -19,6 +30,9 @@ class BasicAuth(Auth):
 
     def decode_base64_authorization_header(
             self, base64_authorization_header: str) -> str:
+        """
+        decodes Base64 authorization header
+        """
         if not base64_authorization_header:
             return None
         if not isinstance(base64_authorization_header, str):
@@ -30,6 +44,9 @@ class BasicAuth(Auth):
 
     def extract_user_credentials(
             self, decoded_base64_authorization_header: str) -> Tuple[str, str]:
+        """
+        finds neccessary user data
+        """
         if not decoded_base64_authorization_header:
             return (None, None)
         if not isinstance(decoded_base64_authorization_header, str):
@@ -42,6 +59,9 @@ class BasicAuth(Auth):
             self,
             user_email: str,
             user_pwd: str) -> TypeVar('User'):
+        """
+        searches for user based on user email and password
+        """
         if not user_email or not isinstance(user_email, str):
             return None
         if not user_pwd or not isinstance(user_pwd, str):
@@ -56,11 +76,14 @@ class BasicAuth(Auth):
         return usr[0]
 
     def current_user(self, request=None) -> TypeVar('User'):
+        """
+        Retrieves the current user
+        """
         authorization_header = self.authorization_header(request)
-        encoded_authorization_header = self.extract_base64_authorization_header(
+        encoded_authorize_header = self.extract_base64_authorization_header(
             authorization_header)
         decoded_authorization_header = self.decode_base64_authorization_header(
-            encoded_authorization_header)
+            encoded_authorize_header)
         usr_credentials = self.extract_user_credentials(
             decoded_authorization_header)
         usr_email = usr_credentials[0]
