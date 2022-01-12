@@ -5,6 +5,7 @@ Simple Authorization implementation
 
 from flask import request
 from typing import List, TypeVar
+from os import getenv
 
 
 class Auth:
@@ -38,3 +39,12 @@ class Auth:
         gets the current user
         """
         return None
+
+    def session_cookie(self, request=None):
+        """
+        gets a cookie value from a request
+        """
+        if not request:
+            return None
+        cookie_name = getenv("SESSION_NAME")
+        return request.cookies.get(cookie_name)

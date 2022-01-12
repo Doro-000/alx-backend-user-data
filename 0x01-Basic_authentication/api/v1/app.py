@@ -30,7 +30,7 @@ def filter_auth_require():
         request.path, [
             '/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/'])
     if not require_auth:
-        pass
+        return None
     if not auth.authorization_header(request):
         abort(401)
     if not auth.current_user(request):
