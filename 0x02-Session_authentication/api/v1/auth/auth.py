@@ -12,6 +12,7 @@ class Auth:
     """
     Simple Authorization class
     """
+
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """
         check if a path needs authorization

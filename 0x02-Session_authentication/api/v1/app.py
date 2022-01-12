@@ -30,12 +30,15 @@ def filter_auth_require():
     """
     filters requests that need authorization
     """
-    require_auth = auth.require_auth(
-        request.path, [
-            '/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/', '/api/v1/auth_session/login/'])
+    require_auth = auth.require_auth(request.path,
+                                     ['/api/v1/status/',
+                                      '/api/v1/unauthorized/',
+                                      '/api/v1/forbidden/',
+                                      '/api/v1/auth_session/login/'])
     if not require_auth:
         return None
-    if not auth.authorization_header(request) and not auth.session_cookie(request):
+    if not auth.authorization_header(
+            request) and not auth.session_cookie(request):
         abort(401)
     usr = auth.current_user(request)
     if not usr:
