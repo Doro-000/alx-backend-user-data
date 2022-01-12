@@ -33,8 +33,10 @@ def filter_auth_require():
         pass
     if not auth.authorization_header(request):
         abort(401)
-    if not auth.current_user(request):
+    usr = auth.current_user(request)
+    if not usr:
         abort(403)
+    request.current_user = usr
 
 
 @app.errorhandler(404)
