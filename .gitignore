@@ -2,3 +2,6 @@ __pycache__
 test.py
 .db_User.json
 set_envs.bat
+main.sql
+user_data.csv
+
