@@ -53,5 +53,5 @@ class SessionAuth(Auth):
         usr_id = self.user_id_for_session_id(sesh_cookie)
         if not usr_id:
             return False
-        del SessionAuth.user_id_by_session_id.pop(sesh_cookie)
+        SessionAuth.user_id_by_session_id.pop(sesh_cookie)
         return True
