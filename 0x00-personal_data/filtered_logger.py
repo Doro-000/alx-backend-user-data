@@ -5,7 +5,7 @@
 logging with sensitive information redaction
 """
 from typing import List
-from re import sub
+import re
 import logging
 from mysql.connector import connection
 from os import getenv
@@ -14,17 +14,12 @@ from os import getenv
 PII_FIELDS = ("ssn", "password", "name", "email", "phone")
 
 
-def filter_datum(
-        fields: List[str],
-        redaction: str,
-        message: str,
-        separator: str) -> None:
+def filter_datum(fields: List[str], blur: str, msg: str, sep: str) -> None:
     """ redact sensetive info """
-    redacted: List[str] = [sub(r'(\w+=)(.+)', r'\1' + redaction, pair)
-                           if pair.split('=')[0] in fields
-                           else pair
-                           for pair in message.split(separator)]
-    return separator.join(redacted)
+    regex = r'(\w+=)(.+)'
+    blured = [re.sub(regex, r'\1' + blur, pair) if pair.split('=')[0] in fields
+                else pair for pair in msg.split(sep)]
+    return sep.join(blured)
 
 
 def get_logger() -> logging.Logger:
