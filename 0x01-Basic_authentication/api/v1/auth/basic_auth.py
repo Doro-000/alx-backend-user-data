@@ -8,6 +8,7 @@ from base64 import b64decode as decode
 from api.v1.auth.auth import Auth
 from typing import TypeVar, Tuple
 from models.user import User
+from models.base import Base
 
 
 class BasicAuth(Auth):
@@ -66,7 +67,10 @@ class BasicAuth(Auth):
             return None
         if not user_pwd or not isinstance(user_pwd, str):
             return None
-        if User.count() == 0:
+        try:
+            if User.count() == 0:
+                return None
+        except BaseException:
             return None
         usr = User.search({"email": user_email})
         if not usr:
