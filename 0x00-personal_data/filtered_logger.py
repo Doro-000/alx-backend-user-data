@@ -15,10 +15,10 @@ PII_FIELDS = ("ssn", "password", "name", "email", "phone")
 
 def filter_datum(fields: List[str], blur: str, msg: str, sep: str) -> None:
     """ redact sensetive info """
-    regex = r'(.+=)(.+)'
-    blured = [re.sub(regex, r'\1' + blur, pair) if pair.split('=')[0] in fields
-              else pair for pair in msg.split(sep)]
-    return sep.join(blured)
+    blurred: List[str] = [re.sub(r'(.+=)(.+)', r'\1' + blur, pair)
+                          if pair.split('=')[0] in fields
+                          else pair for pair in msg.split(sep)]
+    return sep.join(blurred)
 
 
 def get_logger() -> logging.Logger:
