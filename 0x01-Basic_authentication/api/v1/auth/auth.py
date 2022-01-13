@@ -11,6 +11,7 @@ class Auth:
     """
     Simple Authorization class
     """
+
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """
         check if a path needs authorization
@@ -19,9 +20,9 @@ class Auth:
             return True
         ProperPath = path + '/' if path[-1] != '/' else path
         for path in excluded_paths:
-          test_path = path[:-1] if path[-1] == "*" else path
-          if ProperPath.startswith(test_path):
-            return False
+            test_path = path[:-1] if path[-1] == "*" else path
+            if ProperPath.startswith(test_path):
+                return False
         return True
 
     def authorization_header(self, request=None) -> str:
