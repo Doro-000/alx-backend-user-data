@@ -26,7 +26,7 @@ else:
 
 
 @app.before_request
-def filter_auth_require():
+def filter_auth_require() -> None:
     """
     filters requests that need authorization
     """
