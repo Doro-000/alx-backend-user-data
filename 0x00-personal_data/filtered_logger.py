@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 """
 logging with sensitive information redaction
 """
@@ -14,7 +15,7 @@ PII_FIELDS: Tuple[str] = ("ssn", "password", "name", "email", "phone")
 
 
 def filter_datum(fields: List[str], blur: str, msg: str, sep: str) -> str:
-    """ redact sensetive info """
+    """ redact sensitive info """
     blurred: List[str] = [re.sub(r'(.+=)(.+)', r'\1' + blur, pair)
                           if pair.split('=')[0] in fields
                           else pair for pair in msg.split(sep)]
@@ -58,7 +59,7 @@ class RedactingFormatter(logging.Formatter):
         """
 
     REDACTION: str = "***"
-    FORMAT: str = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
+    FORMAT: str = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"  # nopep8
     SEPARATOR: str = ";"
 
     def __init__(self, fields: List[str]):
