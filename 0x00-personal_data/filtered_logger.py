@@ -18,7 +18,7 @@ def filter_datum(fields: List[str], blur: str, msg: str, sep: str) -> None:
     """ redact sensetive info """
     regex = r'(\w+=)(.+)'
     blured = [re.sub(regex, r'\1' + blur, pair) if pair.split('=')[0] in fields
-                else pair for pair in msg.split(sep)]
+              else pair for pair in msg.split(sep)]
     return sep.join(blured)
 
 
