@@ -26,7 +26,6 @@ class Auth:
                 return False
         return True
 
-
     def authorization_header(self, request=None) -> str:
         """
         checks if the proper authorization is available in the request header

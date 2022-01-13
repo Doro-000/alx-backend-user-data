@@ -10,7 +10,7 @@ from os import getenv
 from api.v1.app import auth
 
 
-@app_views.route("/auth_session/login", methods = ['POST'], strict_slashes=False)
+@app_views.route("/auth_session/login", methods=['POST'], strict_slashes=False)
 def sesh_login():
     """
     handle login
@@ -18,23 +18,25 @@ def sesh_login():
     usr_email = request.form.get("email")
     usr_pass = request.form.get("password")
     if not usr_email:
-        return jsonify({ "error": "email missing" }), 400
+        return jsonify({"error": "email missing"}), 400
     if not usr_pass:
-        return jsonify({ "error": "password missing" }), 400
+        return jsonify({"error": "password missing"}), 400
 
-    search_res = User.search({ "email": usr_email })
+    search_res = User.search({"email": usr_email})
     if not search_res:
-        return jsonify({ "error": "no user found for this email" }), 404
+        return jsonify({"error": "no user found for this email"}), 404
     my_usr = search_res[0]
     if not my_usr.is_valid_password(usr_pass):
-        return jsonify({ "error": "wrong password" }), 401
+        return jsonify({"error": "wrong password"}), 401
     from api.v1.app import auth
     cookie = auth.create_session(my_usr.id)
     response = jsonify(my_usr.to_json())
     response.set_cookie(getenv("SESSION_NAME", cookie))
 
 
-@app_views.route("/auth_session/logout", methods = ['DELETE'], strict_slashes=False)
+@app_views.route("/auth_session/logout",
+                 methods=['DELETE'],
+                 strict_slashes=False)
 def sesh_logout():
     """
     handle logout
