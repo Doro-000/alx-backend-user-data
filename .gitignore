@@ -4,4 +4,4 @@ test.py
 set_envs.bat
 main.sql
 user_data.csv
-
+*.db
