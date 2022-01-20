@@ -7,7 +7,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm.exc import NoResultFound
-from sqlalchemy.exc import InvalidRequestError
 
 
 from user import Base, User
@@ -50,10 +49,6 @@ class DB:
         """
         shesh = self._session
         query = None
-        dummy_user = User()
-        for attr in kwargs.keys():
-            if not hasattr(dummy_user, attr):
-                raise InvalidRequestError
         for attr, val in kwargs.items():
             query = shesh.query(User).filter_by(**{attr: val})
         if query.count():
@@ -71,7 +66,10 @@ class DB:
             raise ValueError
         shesh = self._session
         for attr, val in kwargs.items():
-            setattr(user, attr, val)
+            if hasattr(user, attr):
+                setattr(user, attr, val)
+            else:
+                raise ValueError
         shesh.commit()
 
     def _hash_password(self, password: str) -> bytes:
