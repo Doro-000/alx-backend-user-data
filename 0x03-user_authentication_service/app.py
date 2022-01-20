@@ -68,6 +68,8 @@ def profile():
     get user from session_id
     """
     sesh_id = request.cookies.get('session_id')
+    if not sesh_id:
+        abort(403)
     usr = AUTH.get_user_from_session_id(sesh_id)
     if usr:
         return jsonify({"email": usr.email}), 200
